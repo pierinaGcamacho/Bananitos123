@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="FONDO_LOGO">#FEAC26</color>
+    <color name="amarillo">#E7B90C</color>
+    <color name="verde_oliva">#856E0C</color>
+    <color name="verde_claro">#C3CC78</color>
+    <color name="letras_logo">#5D6219</color>
+    <color name="verde_pastel">#C9DBCA</color>
+
+</resources>
