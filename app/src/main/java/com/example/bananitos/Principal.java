@@ -25,8 +25,5 @@ public class Principal extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-        return null;
     }
 }

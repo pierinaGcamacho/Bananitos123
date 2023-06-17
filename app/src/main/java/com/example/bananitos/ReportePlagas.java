@@ -18,23 +18,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ReportePlagas extends AppCompatActivity {
 
-    private Button generateFieldsButton;
-    private EditText plantNumberEditText;
-    private LinearLayout plantFieldsContainer;
-
-    private Button generateFieldsButtonCentro;
-    private EditText plantNumberEditTextCentro;
-    private LinearLayout plantFieldsContainerCentro;
-
-    private Button generateFieldsButtonIzquierdo;
-    private EditText plantNumberEditTextIzquierdo;
-    private LinearLayout plantFieldsContainerIzquierdo;
+    private Button generateFieldsButton,generateFieldsButtonCentro,generateFieldsButtonIzquierdo;
+    private EditText plantNumberEditText,plantNumberEditTextCentro,plantNumberEditTextIzquierdo;
+    private LinearLayout plantFieldsContainer,plantFieldsContainerCentro,plantFieldsContainerIzquierdo;
 
     private Button buttonGenerate;
-
+    private ArrayList <EditText> ninfasDerecha, adultosDerecha, ninfasCentrop, adultosCentrop, ninfasIzquierda, adultosIzquierda;
+    private ConnectionDatabase connectionDatabase ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +48,18 @@ public class ReportePlagas extends AppCompatActivity {
         LinearLayout plantFieldsContainerIzquierdo = findViewById(R.id.plantFieldsContainerIzquierdo);
 
         Button buttonGenerate = findViewById(R.id.buttonGenerate);
+        adultosDerecha = new ArrayList<>();
+        adultosCentrop = new ArrayList<>();
+        adultosIzquierda = new ArrayList<>();
+
+        ninfasDerecha = new ArrayList<>();
+        ninfasCentrop = new ArrayList<>();
+        ninfasIzquierda = new ArrayList<>();
 
         generateFieldsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String plantNumberString = plantNumberEditText.getText().toString();
-
                 // Verificar si se ingresó un número válido
                 if (!plantNumberString.isEmpty()) {
                     int plantNumber = Integer.parseInt(plantNumberString);
@@ -75,6 +75,7 @@ public class ReportePlagas extends AppCompatActivity {
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT
                         );
+
                         labelLayoutParams.setMargins(20, 5, 20, 0); // Margen de 20 píxeles a la izquierda y derecha
                         plantLabel.setLayoutParams(labelLayoutParams);
                         plantLabel.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
@@ -94,6 +95,8 @@ public class ReportePlagas extends AppCompatActivity {
 
                         EditText plantDataEditText = new EditText(ReportePlagas.this);
                         plantDataEditText.setHint("Adultos de la planta " + i);
+                        adultosDerecha.add(plantDataEditText);
+
                         LinearLayout.LayoutParams labelLayoutParamsedtDerechaA = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -101,7 +104,7 @@ public class ReportePlagas extends AppCompatActivity {
                         labelLayoutParamsedtDerechaA.setMargins(20, 0, 20, 0); // Margen de 16 píxeles a la izquierda y derecha
                         plantDataEditText.setLayoutParams(labelLayoutParamsedtDerechaA);
                         plantDataEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
-                        plantFieldsContainer.addView(plantDataEditText);
+                        plantFieldsContainer.addView(adultosDerecha.get(i-1));
 
                         TextView ninfas = new TextView(ReportePlagas.this);
                         ninfas.setText("Número de ninfas");
@@ -116,6 +119,8 @@ public class ReportePlagas extends AppCompatActivity {
 
                         EditText plantDataEditTextNinfas = new EditText(ReportePlagas.this);
                         plantDataEditTextNinfas.setHint("Ninfas de la planta " + i);
+                        ninfasDerecha.add(plantDataEditTextNinfas);
+
                         LinearLayout.LayoutParams labelLayoutParamsedtDerechaN = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -123,55 +128,15 @@ public class ReportePlagas extends AppCompatActivity {
                         labelLayoutParamsedtDerechaN.setMargins(20, 0, 20, 0); // Margen de 16 píxeles a la izquierda y derecha
                         plantDataEditTextNinfas.setLayoutParams(labelLayoutParamsedtDerechaN);
                         plantDataEditTextNinfas.setInputType(InputType.TYPE_CLASS_NUMBER);
-                        plantFieldsContainer.addView(plantDataEditTextNinfas);
-
+                        plantFieldsContainer.addView(ninfasDerecha.get(i-1));
 
                     }
-
-                    // Crear y configurar el botón de guardar
-                    Button saveButton = new Button(ReportePlagas.this);
-                    saveButton.setText("Guardar");
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
-                    );
-                    layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
-                    saveButton.setLayoutParams(layoutParams);
-                    saveButton.setBackgroundColor(ContextCompat.getColor(ReportePlagas.this, R.color.verde_claro));
-
-                    // Aplicar fondo redondeado y color de texto blanco
-                    saveButton.setBackgroundResource(R.drawable.botonguardar);
-                    saveButton.setTextColor(Color.WHITE);
-
-                    // Agregar el botón de guardar al contenedor
-                    plantFieldsContainer.addView(saveButton);
-
-                    // Evento de clic del botón de guardar
-                    saveButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            // Obtener los datos ingresados por el usuario en cada campo de planta
-                            for (int i = 0; i < plantFieldsContainer.getChildCount(); i++) {
-                                View child = plantFieldsContainer.getChildAt(i);
-
-                                if (child instanceof EditText) {
-                                    EditText editText = (EditText) child;
-                                    String plantData = editText.getText().toString();
-                                    // Aquí puedes realizar acciones con los datos de cada planta, como guardarlos en una base de datos o procesarlos de alguna manera.
-                                }
-                            }
-
-                            // Mostrar un mensaje o realizar alguna acción adicional después de guardar los datos
-                            Toast.makeText(ReportePlagas.this, "Datos guardados", Toast.LENGTH_SHORT).show();
-                        }
-                    });
 
                 } else {
                     Toast.makeText(ReportePlagas.this, "Ingrese un número de planta", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
 
         //BOTON DEL CENTRO
 
@@ -214,6 +179,8 @@ public class ReportePlagas extends AppCompatActivity {
 
                         EditText plantDataEditTextCentro = new EditText(ReportePlagas.this);
                         plantDataEditTextCentro.setHint("Adultos de la planta " + i);
+                        adultosCentrop.add(plantDataEditTextCentro);
+
                         LinearLayout.LayoutParams labelLayoutParamsedtCentroA = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -221,7 +188,7 @@ public class ReportePlagas extends AppCompatActivity {
                         labelLayoutParamsedtCentroA.setMargins(20, 0, 20, 0); // Margen de 16 píxeles a la izquierda y derecha
                         plantDataEditTextCentro.setLayoutParams(labelLayoutParamsedtCentroA);
                         plantDataEditTextCentro.setInputType(InputType.TYPE_CLASS_NUMBER);
-                        plantFieldsContainerCentro.addView(plantDataEditTextCentro);
+                        plantFieldsContainerCentro.addView(adultosCentrop.get(i-1));
 
                         TextView ninfasCentro = new TextView(ReportePlagas.this);
                         ninfasCentro.setText("Número de ninfas");
@@ -236,6 +203,8 @@ public class ReportePlagas extends AppCompatActivity {
 
                         EditText plantDataEditTextNinfasCentro = new EditText(ReportePlagas.this);
                         plantDataEditTextNinfasCentro.setHint("Ninfas de la planta " + i);
+                        ninfasCentrop.add(plantDataEditTextNinfasCentro);
+
                         LinearLayout.LayoutParams labelLayoutParamsedtCentroN = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -243,48 +212,9 @@ public class ReportePlagas extends AppCompatActivity {
                         labelLayoutParamsedtCentroN.setMargins(20, 0, 20, 0); // Margen de 16 píxeles a la izquierda y derecha
                         plantDataEditTextNinfasCentro.setLayoutParams(labelLayoutParamsedtCentroN);
                         plantDataEditTextNinfasCentro.setInputType(InputType.TYPE_CLASS_NUMBER);
-                        plantFieldsContainerCentro.addView(plantDataEditTextNinfasCentro);
-
+                        plantFieldsContainerCentro.addView(ninfasCentrop.get(i-1));
 
                     }
-
-                    // Crear y configurar el botón de guardar
-                    Button saveButtonCentro = new Button(ReportePlagas.this);
-                    saveButtonCentro.setText("Guardar");
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
-                    );
-                    layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
-                    saveButtonCentro.setLayoutParams(layoutParams);
-                    saveButtonCentro.setBackgroundColor(ContextCompat.getColor(ReportePlagas.this, R.color.verde_claro));
-
-                    // Aplicar fondo redondeado y color de texto blanco
-                    saveButtonCentro.setBackgroundResource(R.drawable.botonguardar);
-                    saveButtonCentro.setTextColor(Color.WHITE);
-
-                    // Agregar el botón de guardar al contenedor
-                    plantFieldsContainerCentro.addView(saveButtonCentro);
-
-                    // Evento de clic del botón de guardar
-                    saveButtonCentro.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            // Obtener los datos ingresados por el usuario en cada campo de planta
-                            for (int i = 0; i < plantFieldsContainerCentro.getChildCount(); i++) {
-                                View child = plantFieldsContainerCentro.getChildAt(i);
-
-                                if (child instanceof EditText) {
-                                    EditText editText = (EditText) child;
-                                    String plantData = editText.getText().toString();
-                                    // Aquí puedes realizar acciones con los datos de cada planta, como guardarlos en una base de datos o procesarlos de alguna manera.
-                                }
-                            }
-
-                            // Mostrar un mensaje o realizar alguna acción adicional después de guardar los datos
-                            Toast.makeText(ReportePlagas.this, "Datos guardados", Toast.LENGTH_SHORT).show();
-                        }
-                    });
 
                 } else {
                     Toast.makeText(ReportePlagas.this, "Ingrese un número de planta", Toast.LENGTH_SHORT).show();
@@ -292,9 +222,7 @@ public class ReportePlagas extends AppCompatActivity {
             }
         });
 
-
         //BOTON IZQUIERDA
-
         generateFieldsButtonIzquierdo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -343,6 +271,8 @@ public class ReportePlagas extends AppCompatActivity {
 
                         EditText plantDataEditTextIZQ = new EditText(ReportePlagas.this);
                         plantDataEditTextIZQ.setHint("Adultos de la planta " + i);
+                        adultosIzquierda.add(plantDataEditTextIZQ);
+
                         LinearLayout.LayoutParams labelLayoutParamsedtCentrIzqA = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -350,7 +280,7 @@ public class ReportePlagas extends AppCompatActivity {
                         labelLayoutParamsedtCentrIzqA.setMargins(20, 0, 20, 0); // Margen de 16 píxeles a la izquierda y derecha
                         plantDataEditTextIZQ.setLayoutParams(labelLayoutParamsedtCentrIzqA);
                         plantDataEditTextIZQ.setInputType(InputType.TYPE_CLASS_NUMBER);
-                        plantFieldsContainerIzquierdo.addView(plantDataEditTextIZQ);
+                        plantFieldsContainerIzquierdo.addView(adultosIzquierda.get(i-1));
 
                         TextView ninfasIzq = new TextView(ReportePlagas.this);
                         ninfasIzq.setText("Número de ninfas");
@@ -365,6 +295,8 @@ public class ReportePlagas extends AppCompatActivity {
 
                         EditText plantDataEditTextNinfasIzq = new EditText(ReportePlagas.this);
                         plantDataEditTextNinfasIzq.setHint("Ninfas de la planta " + i);
+                        ninfasIzquierda.add(plantDataEditTextNinfasIzq);
+
                         LinearLayout.LayoutParams labelLayoutParamsedtIzqN = new LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -372,83 +304,41 @@ public class ReportePlagas extends AppCompatActivity {
                         labelLayoutParamsedtIzqN.setMargins(20, 0, 20, 0); // Margen de 16 píxeles a la izquierda y derecha
                         plantDataEditTextNinfasIzq.setLayoutParams(labelLayoutParamsedtIzqN);
                         plantDataEditTextNinfasIzq.setInputType(InputType.TYPE_CLASS_NUMBER);
-                        plantFieldsContainerIzquierdo.addView(plantDataEditTextNinfasIzq);
-
-
+                        plantFieldsContainerIzquierdo.addView(ninfasIzquierda.get(i-1));
                     }
-
-                    // Crear y configurar el botón de guardar
-                    Button saveButtonIzq = new Button(ReportePlagas.this);
-                    saveButtonIzq.setText("Guardar");
-                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.WRAP_CONTENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
-                    );
-                    layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
-                    saveButtonIzq.setLayoutParams(layoutParams);
-                    saveButtonIzq.setBackgroundColor(ContextCompat.getColor(ReportePlagas.this, R.color.verde_claro));
-
-                    // Aplicar fondo redondeado y color de texto blanco
-                    saveButtonIzq.setBackgroundResource(R.drawable.botonguardar);
-                    saveButtonIzq.setTextColor(Color.WHITE);
-
-                    // Agregar el botón de guardar al contenedor
-                    plantFieldsContainerIzquierdo.addView(saveButtonIzq);
-
-                    // Evento de clic del botón de guardar
-                    saveButtonIzq.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            // Obtener los datos ingresados por el usuario en cada campo de planta
-                            for (int i = 0; i < plantFieldsContainerIzquierdo.getChildCount(); i++) {
-                                View child = plantFieldsContainerIzquierdo.getChildAt(i);
-
-                                if (child instanceof EditText) {
-                                    EditText editText = (EditText) child;
-                                    String plantData = editText.getText().toString();
-                                    // Aquí puedes realizar acciones con los datos de cada planta, como guardarlos en una base de datos o procesarlos de alguna manera.
-                                }
-                            }
-
-
-
-                            // Mostrar un mensaje o realizar alguna acción adicional después de guardar los datos
-                            Toast.makeText(ReportePlagas.this, "Datos guardados", Toast.LENGTH_SHORT).show();
-                        }
-                    });
 
                 } else {
                     Toast.makeText(ReportePlagas.this, "Ingrese un número de planta", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-
-
         buttonGenerate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Obtener los datos ingresados en el contenedor
-
-
-                Intent intent = new Intent(ReportePlagas.this, Resumen.class);
-
-                startActivity(intent);
+                //Intent intent = new Intent(ReportePlagas.this, Resumen.class);
+                //startActivity(intent);
+                saveData();
             }
         });
 
+    }
+    private void saveData(){
+        HashMap<String, ArrayList> dataPlant = new HashMap();
+        dataPlant.put("AdultosIzquierda", adultosIzquierda);
+        dataPlant.put("NinfasIzquierda", ninfasIzquierda);
 
+        dataPlant.put("AdultosCentro", adultosCentrop);
+        dataPlant.put("NinfasCentro", ninfasCentrop);
 
+        dataPlant.put("AdultosDerecha",adultosDerecha);
+        dataPlant.put("NinfasDerecha",ninfasDerecha);
 
-
-
-
-
-
-
-
-
+        connectionDatabase = new ConnectionDatabase(getApplicationContext());
+        connectionDatabase.fetchLocations();
+        Toast.makeText(ReportePlagas.this, "Connected", Toast.LENGTH_SHORT).show();
+    }
+    private void generateFields(int numberPlants, LinearLayout container){
 
     }
-
 }

@@ -31,13 +31,12 @@ public class RegistroDatos extends AppCompatActivity {
     private EditText etEvaluador;
     private EditText etLugar;
     private EditText etPlantas;
-    private Button btRegistrar;
+    private Button btnRegistrar;
     public static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
     public static final String DATABASE = "basedatos1";
     public static final String username = "a78rv36twvfy7g2dy8l6";
     public static final String host = "aws.connect.psdb.cloud";
     public static final String PASSWORD = "pscale_pw_tqAfJZhZ5PQGzEGwcjuUFuOeKyIgeENbSBR3Lq9CxOz";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,28 +44,12 @@ public class RegistroDatos extends AppCompatActivity {
         etEvaluador =findViewById(R.id.etEvaluador);
         etLugar = findViewById(R.id.etLugar);
         etPlantas = findViewById(R.id.etPlantas);
-        btRegistrar = findViewById(R.id.btnRegistrar);
+        btnRegistrar = findViewById(R.id.btnRegistrar);
         //10.0.2.2
-
-        /*
-        Class.forName("com.mysql.cj.jdbc.Driver");
-Connection conn = DriverManager.getConnection(
-  "jdbc:mysql://aws.connect.psdb.cloud/basedatos1?sslMode=VERIFY_IDENTITY",
-  "a78rv36twvfy7g2dy8l6", "pscale_pw_tqAfJZhZ5PQGzEGwcjuUFuOeKyIgeENbSBR3Lq9CxOz");
-        * */
-
-        btRegistrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fetchData();
-                //ejecutarServicio("http://192.168.0.11:80/basedatos_1/insertar_registro.php");
-
-            }
-        });
+        btnRegistrar.setOnClickListener(this::fetchData);
         //"https://192.168.0.11:80/basedatos_1/insertar_registro.php"
-        return null;
     }
-    private void fetchData(){
+    private void fetchData(View view){
         try {
             Class.forName(DRIVER);
             Connection conn = DriverManager.getConnection(
@@ -84,35 +67,25 @@ Connection conn = DriverManager.getConnection(
                 String nombre = resultSet.getString("nombreEvaluador");
                 System.out.println(nombre);
             }
-
         }catch (Exception err){
             System.out.println(err);
         }
     }
-
     private void ejecutarServicio(String URL){
-
         int tiempoEspera = 50000; // Tiempo de espera en milisegundos (30 segundos)
-
-
         long startTime = System.currentTimeMillis();
-
-
         StringRequest stringRequest= new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 long endTime = System.currentTimeMillis();
                 long totalTime = endTime - startTime;
                 Toast.makeText(getApplicationContext(), "Operación exitosa. Tiempo de conexión: " + totalTime + " milisegundos", Toast.LENGTH_SHORT).show();
-
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
             }
-
-
     }){
             @Override
             protected Map<String,String> getParams() throws AuthFailureError {
@@ -126,17 +99,13 @@ Connection conn = DriverManager.getConnection(
                 return parametros;
             }
         };
-
         // Configurar la política de reintento
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
                 tiempoEspera,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-
         RequestQueue requestQueue= Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
-
-
     }
 }

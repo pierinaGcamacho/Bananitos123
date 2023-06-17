@@ -586,7 +586,6 @@ public class Prediccion extends AppCompatActivity {
 
     }
          */
-        return null;
     }
 }
 
