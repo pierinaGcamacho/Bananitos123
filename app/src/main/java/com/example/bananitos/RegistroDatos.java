@@ -45,31 +45,7 @@ public class RegistroDatos extends AppCompatActivity {
         etLugar = findViewById(R.id.etLugar);
         etPlantas = findViewById(R.id.etPlantas);
         btnRegistrar = findViewById(R.id.btnRegistrar);
-        //10.0.2.2
-        btnRegistrar.setOnClickListener(this::fetchData);
-        //"https://192.168.0.11:80/basedatos_1/insertar_registro.php"
-    }
-    private void fetchData(View view){
-        try {
-            Class.forName(DRIVER);
-            Connection conn = DriverManager.getConnection(
-                    "jdbc:mysql://aws.connect.psdb.cloud/basedatos1?sslMode=VERIFY_IDENTITY",
-                    "a78rv36twvfy7g2dy8l6",
-                    "pscale_pw_tqAfJZhZ5PQGzEGwcjuUFuOeKyIgeENbSBR3Lq9CxOz");
 
-            System.out.println("Connected !");
-            Toast.makeText(RegistroDatos.this, "Connected", Toast.LENGTH_SHORT).show();
-            Statement st = conn.createStatement();
-            StringBuffer stringBuffer = new StringBuffer();
-            ResultSet resultSet = st.executeQuery("SELECT * FROM registro;");
-
-            while(resultSet.next()){
-                String nombre = resultSet.getString("nombreEvaluador");
-                System.out.println(nombre);
-            }
-        }catch (Exception err){
-            System.out.println(err);
-        }
     }
     private void ejecutarServicio(String URL){
         int tiempoEspera = 50000; // Tiempo de espera en milisegundos (30 segundos)
@@ -86,7 +62,7 @@ public class RegistroDatos extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
             }
-    }){
+        }){
             @Override
             protected Map<String,String> getParams() throws AuthFailureError {
                 Map<String, String> parametros=new HashMap<String,String>();

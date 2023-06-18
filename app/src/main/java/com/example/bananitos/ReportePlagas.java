@@ -17,8 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class ReportePlagas extends AppCompatActivity {
 
@@ -233,13 +236,13 @@ public class ReportePlagas extends AppCompatActivity {
                     int plantNumberIzquierdo = Integer.parseInt(plantNumberStringIzquierdo);
 
                     // Crear un intent para iniciar la actividad Resumen
-                    Intent intent = new Intent(ReportePlagas.this, Resumen.class);
+                    //Intent intent = new Intent(ReportePlagas.this, Resumen.class);
 
                     // Agregar el número de plantas al intent como extra
-                    intent.putExtra("plantNumberIzquierdo", plantNumberIzquierdo);
+                    //intent.putExtra("plantNumberIzquierdo", plantNumberIzquierdo);
 
                     // Iniciar la actividad Resumen
-                    startActivity(intent);
+                    //startActivity(intent);
 
                     // Limpiar el contenedor de campos de planta existentes
                     plantFieldsContainerIzquierdo.removeAllViews();
@@ -318,27 +321,56 @@ public class ReportePlagas extends AppCompatActivity {
                 // Obtener los datos ingresados en el contenedor
                 //Intent intent = new Intent(ReportePlagas.this, Resumen.class);
                 //startActivity(intent);
-                saveData();
+                try {
+                    saveData();
+                } catch (Exception e) {
+                    System.err.println(e);
+                }
             }
         });
 
     }
-    private void saveData(){
+    private void saveData() throws Exception{
         HashMap<String, ArrayList> dataPlant = new HashMap();
-        dataPlant.put("AdultosIzquierda", adultosIzquierda);
-        dataPlant.put("NinfasIzquierda", ninfasIzquierda);
 
-        dataPlant.put("AdultosCentro", adultosCentrop);
-        dataPlant.put("NinfasCentro", ninfasCentrop);
+        ArrayList<String> arr_adultosIzquierda = new ArrayList();
+        ArrayList<String> arr_ninfasIzquierda = new ArrayList<>();
+        ArrayList<String> arr_adultosCentrop = new ArrayList<>();
+        ArrayList<String> arr_ninfasCentrop = new ArrayList<>();
+        ArrayList<String> arr_adultosDerecha = new ArrayList<>();
+        ArrayList<String> arr_ninfasDerecha = new ArrayList<>();
 
-        dataPlant.put("AdultosDerecha",adultosDerecha);
-        dataPlant.put("NinfasDerecha",ninfasDerecha);
+        for (EditText editTextAdultosIzquierda : adultosIzquierda){
+            arr_adultosIzquierda.add(editTextAdultosIzquierda.getText().toString());
+        }
+        for (EditText editTextNinfasIzquierda : ninfasIzquierda){
+            arr_ninfasIzquierda.add(editTextNinfasIzquierda.getText().toString());
+        }
+        for (EditText editTextAdultosCentro : adultosCentrop){
+            arr_adultosCentrop.add(editTextAdultosCentro.getText().toString());
+        }
+        for (EditText editTextNinfasCentro : ninfasCentrop){
+            arr_ninfasCentrop.add(editTextNinfasCentro.getText().toString());
+        }
+        for (EditText editTextAdultosDerecha : adultosDerecha){
+            arr_adultosDerecha.add(editTextAdultosDerecha.getText().toString());
+        }
+        for (EditText editTextNinfasDerecha : ninfasDerecha){
+            arr_ninfasDerecha.add(editTextNinfasDerecha.getText().toString());
+        }
+        JSONObject jsonData = new JSONObject();
+        jsonData.put("LI_Adultos", arr_adultosIzquierda);
+        jsonData.put("LI_Ninfas", arr_ninfasIzquierda);
+
+        jsonData.put("LC_Adultos", arr_adultosCentrop);
+        jsonData.put("LC_Ninfas", arr_ninfasCentrop);
+
+        jsonData.put("LD_Adultos",arr_adultosDerecha);
+        jsonData.put("LD_Ninfas",arr_ninfasDerecha);
 
         connectionDatabase = new ConnectionDatabase(getApplicationContext());
-        connectionDatabase.fetchLocations();
+        connectionDatabase.savePlant(jsonData);
         Toast.makeText(ReportePlagas.this, "Connected", Toast.LENGTH_SHORT).show();
     }
-    private void generateFields(int numberPlants, LinearLayout container){
 
-    }
 }
