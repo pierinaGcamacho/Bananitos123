@@ -36,6 +36,11 @@ public class ReportePlagas extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+        String ubicacion = intent.getStringExtra("lugar");
+        String evaluador = intent.getStringExtra("evaluador");
+
         setContentView(R.layout.activity_reporte_plagas);
 
         EditText plantNumberEditText = findViewById(R.id.plantNumberEditText);
@@ -235,15 +240,6 @@ public class ReportePlagas extends AppCompatActivity {
                 if (!plantNumberStringIzquierdo.isEmpty()) {
                     int plantNumberIzquierdo = Integer.parseInt(plantNumberStringIzquierdo);
 
-                    // Crear un intent para iniciar la actividad Resumen
-                    //Intent intent = new Intent(ReportePlagas.this, Resumen.class);
-
-                    // Agregar el número de plantas al intent como extra
-                    //intent.putExtra("plantNumberIzquierdo", plantNumberIzquierdo);
-
-                    // Iniciar la actividad Resumen
-                    //startActivity(intent);
-
                     // Limpiar el contenedor de campos de planta existentes
                     plantFieldsContainerIzquierdo.removeAllViews();
 
@@ -319,8 +315,7 @@ public class ReportePlagas extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Obtener los datos ingresados en el contenedor
-                //Intent intent = new Intent(ReportePlagas.this, Resumen.class);
-                //startActivity(intent);
+
                 try {
                     saveData();
                 } catch (Exception e) {
@@ -331,8 +326,6 @@ public class ReportePlagas extends AppCompatActivity {
 
     }
     private void saveData() throws Exception{
-        HashMap<String, ArrayList> dataPlant = new HashMap();
-
         ArrayList<String> arr_adultosIzquierda = new ArrayList();
         ArrayList<String> arr_ninfasIzquierda = new ArrayList<>();
         ArrayList<String> arr_adultosCentrop = new ArrayList<>();
@@ -368,9 +361,17 @@ public class ReportePlagas extends AppCompatActivity {
         jsonData.put("LD_Adultos",arr_adultosDerecha);
         jsonData.put("LD_Ninfas",arr_ninfasDerecha);
 
-        connectionDatabase = new ConnectionDatabase(getApplicationContext());
-        connectionDatabase.savePlant(jsonData);
-        Toast.makeText(ReportePlagas.this, "Connected", Toast.LENGTH_SHORT).show();
-    }
+        String evaluador = getIntent().getStringExtra("evaluador");
+        String ubicacion = getIntent().getStringExtra("ubicacion");
 
+        connectionDatabase = new ConnectionDatabase(getApplicationContext());
+        connectionDatabase.savePlant(jsonData, evaluador, ubicacion);
+        plantFieldsContainer.removeAllViews();
+        plantFieldsContainerIzquierdo.removeAllViews();
+        plantFieldsContainerCentro.removeAllViews();
+
+        Intent intent = new Intent(ReportePlagas.this, RegistroDatos.class);
+        startActivity(intent);
+        Toast.makeText(ReportePlagas.this, "Data Upload Successfully!", Toast.LENGTH_SHORT).show();
+    }
 }

@@ -81,27 +81,6 @@
         android:ems="10"
         android:inputType="text" />
 
-    <TextView
-        android:id="@+id/tvPlantas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:text="Número de plantas evaluadas"
-        android:textColor="@color/verde_oliva"
-        android:textColorLink="@color/verde_oliva"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/etPlantas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:ems="10"
-        android:inputType="number" />
-
     <Button
         android:id="@+id/btnRegistrar"
         android:layout_width="match_parent"

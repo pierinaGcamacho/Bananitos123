@@ -12,7 +12,6 @@ import java.sql.DriverManager;
 public class MainActivity extends AppCompatActivity {
 
     Handler h= new Handler();
-    Database database;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,23 +19,10 @@ public class MainActivity extends AppCompatActivity {
         h.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(getApplicationContext(), ReportePlagas.class);
+                Intent i = new Intent(getApplicationContext(), RegistroDatos.class);
                 startActivity(i);
                 finish();
             }
         }, 2000);
-    }
-    public void connectDatabase(){
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(
-                    "jdbc:mysql://aws.connect.psdb.cloud/basedatos1?sslMode=VERIFY_IDENTITY",
-                    "ivjhdk1tzngqz08tw05m", "pscale_pw_an50MhjZqS4PWVPreY4sgxmuH2VdNXxjoBgooggG4hf");
-
-            System.out.println("Connected !");
-        }catch (Exception err){
-            System.out.println(err);
-        }
-
     }
 }

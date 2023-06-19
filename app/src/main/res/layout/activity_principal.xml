@@ -108,7 +108,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:text="Opcion2"
+                            android:text="Tabla"
                             android:textColor="@color/letras_logo"
                             android:textSize="18dp"
                             android:textStyle="bold" />
