@@ -33,7 +33,7 @@ import java.util.Map;
 
 public class ConnectionDatabase {
     // http://192.168.0.115:8080/
-    private static final String URL = "https://bananitosapp.fly.dev/";
+    private static final String URL = "http://192.168.0.115:8080/";
     private RequestQueue requestQueue;
     private Context contextApplication;
     ArrayList<String> arrDates;

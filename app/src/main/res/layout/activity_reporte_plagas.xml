@@ -41,7 +41,7 @@
                 android:layout_marginTop="-63dp"
                 android:gravity="center"
                 android:text="Control de Plagas"
-                android:textColor="@color/letras_logo"
+
                 android:textColorLink="@color/letras_logo"
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -85,13 +85,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:backgroundTint="@color/verde_claro"
+                android:textColor="@color/letras_logo"
                 android:text="Generar campos" />
 
             <LinearLayout
                 android:id="@+id/plantFieldsContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginBottom="20dp"/>
 
             <TextView
                 android:id="@+id/tvCentro"
@@ -132,13 +135,17 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:backgroundTint="@color/verde_claro"
+                android:textColor="@color/letras_logo"
                 android:text="Generar campos" />
 
             <LinearLayout
                 android:id="@+id/plantFieldsContainerCentro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginBottom="20dp"
+                />
 
             <TextView
                 android:id="@+id/tvIzquierdo"
@@ -179,15 +186,20 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:backgroundTint="@color/verde_claro"
+                android:textColor="@color/letras_logo"
                 android:text="Generar campos" />
 
             <LinearLayout
                 android:id="@+id/plantFieldsContainerIzquierdo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" />
+
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginBottom="20dp"/>
             <Button
                 android:id="@+id/buttonGenerate"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

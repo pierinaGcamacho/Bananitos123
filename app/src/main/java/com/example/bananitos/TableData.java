@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TableData extends AppCompatActivity {
-    private static final String URL = "https://bananitosapp.fly.dev/";
+    private static final String URL = "http://192.168.0.115:8080/";
     private Button buttonBackHome;
     private AutoCompleteTextView autoCompleteTxt;
     private ConnectionDatabase conn;
