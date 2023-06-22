@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         h.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(getApplicationContext(), RegistroDatos.class);
+                Intent i = new Intent(getApplicationContext(), Principal.class);
                 startActivity(i);
                 finish();
             }

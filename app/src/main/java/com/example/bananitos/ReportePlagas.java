@@ -366,12 +366,8 @@ public class ReportePlagas extends AppCompatActivity {
 
         connectionDatabase = new ConnectionDatabase(getApplicationContext());
         connectionDatabase.savePlant(jsonData, evaluador, ubicacion);
-        plantFieldsContainer.removeAllViews();
-        plantFieldsContainerIzquierdo.removeAllViews();
-        plantFieldsContainerCentro.removeAllViews();
 
-        Intent intent = new Intent(ReportePlagas.this, RegistroDatos.class);
-        startActivity(intent);
-        Toast.makeText(ReportePlagas.this, "Data Upload Successfully!", Toast.LENGTH_SHORT).show();
+       Intent intentTable = new Intent(ReportePlagas.this, TableData.class);
+        startActivity(intentTable);
     }
 }

@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Bananitos</string>
+    <string name="title_activity_table_data1">tableData1</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="selectDay">fecha</string>
+    <string name="optTable">Datos</string>
+    <string name="nombre">Nombre</string>
+    <string name="tipo">Tipo</string>
+    <string name="total">Total</string>
+    <string name="minimo">Mínimo</string>
+    <string name="maximo">Máximo</string>
+    <string name="promedio">Promedio</string>
 </resources>
